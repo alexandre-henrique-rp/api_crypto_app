@@ -1,8 +1,11 @@
-module github.com/alexandre-henrique-rp/go_api_crypto
+module api_crypto_app
 
 go 1.22.2
 
-require github.com/gin-gonic/gin v1.10.0
+require (
+	github.com/gin-gonic/gin v1.10.0
+	github.com/mattn/go-sqlite3 v1.14.28
+)
 
 require (
 	github.com/bytedance/sonic v1.11.6 // indirect
