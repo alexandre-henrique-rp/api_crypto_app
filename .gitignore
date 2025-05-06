@@ -26,7 +26,3 @@ Thumbs.db
 *.log
 .idea/
 .vscode/
-
-# Arquivos do Go
-*.mod~
-*.sum~
