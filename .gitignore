@@ -1,0 +1,32 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# Diretório de dependências
+/vendor/
+bin/
+build/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Banco de dados local
+*.db
+
+# Arquivos temporários e de editor
+*.swp
+*.swo
+*.tmp
+*.log
+.idea/
+.vscode/
+
+# Arquivos do Go
+*.mod~
+*.sum~
