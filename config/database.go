@@ -1,46 +1,33 @@
-package database
+package config
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"log"
+	"os"
+
+	"github.com/joho/godotenv"
+	_ "github.com/mattn/go-sqlite3"
 )
 
-var DB *sql.DB
-
 // Connect inicializa a conexão com o banco de dados SQLite
-func Connect() {
-	var err error
-	DB, err = sql.Open("sqlite3", "./crypto.db")
+func Connect() *sql.DB {
+	err := godotenv.Load()
 	if err != nil {
-		log.Fatalf("Erro ao conectar ao banco de dados: %v", err)
+		log.Fatalf("Erro ao carregar variáveis de ambiente: %v", err)
+	}
+  Db_Phat := os.Getenv("DB_HOST")
+
+
+	DB, errDb := sql.Open("sqlite3", Db_Phat)
+	if errDb != nil {
+		log.Fatalf("Erro ao conectar ao banco de dados: %v", errDb)
 	}
 
-	// Testa a conexão
-	if err := DB.Ping(); err != nil {
-		log.Fatalf("Erro ao testar conexão com banco de dados: %v", err)
+	//teste de conexão
+	teste := DB.Ping()
+	if teste != nil {
+		log.Fatalf("Erro ao testar conexão com banco de dados: %v", teste)
 	}
-	criarTabelaCryptos()
-}
 
-// criarTabelaCryptos cria a tabela de criptomoedas se ela não existir
-func criarTabelaCryptos() {
-	sqlCreateTable := `
-	CREATE TABLE IF NOT EXISTS cryptos (
-		id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-		nome TEXT NOT NULL,
-		tag TEXT NOT NULL,
-		price_usd TEXT NOT NULL,
-		price_br TEXT NOT NULL,
-		porcentagem_hora TEXT NOT NULL,
-		porcentagem_dia TEXT NOT NULL,
-		porcentagem_semana TEXT NOT NULL,
-		created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-		updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-	);`
-
-	_, err := DB.Exec(sqlCreateTable)
-	if err != nil {
-		log.Fatalf("Erro ao criar tabela cryptos: %v", err)
-	}
+	return DB
 }
